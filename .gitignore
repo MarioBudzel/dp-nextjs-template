@@ -1,0 +1,8 @@
+/web/.next
+.DS_Store
+/node_modules
+/.vscode
+/api/node_modules
+/api/.env
+/api/package-lock.json
+/web/.env

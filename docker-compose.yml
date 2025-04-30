@@ -1,0 +1,103 @@
+services:
+  nginx_next:
+    container_name: nginx_next
+    restart: always
+    depends_on:
+      - web
+      - api
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "5001:80"
+    volumes:
+      - ./api/uploads:/app/uploads
+    networks:
+      - nextjs_network
+  api:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./api
+    environment:
+      - MONGO_DATABASE_URL=mongodb://mongo:27017/nextjs?replicaSet=rs0
+      - AUTH_SECRET=lSpZ1CScW5qnzEHx+JpYC9q4Ll2FThX0zqtohlnDfQAckXb8djMltf9KUmtcz+Gtgy1CHhT1DvP+FLnxcc9OyA==
+      - API_SECRETS=LYEhuVzP4z3NE+fTRvIgD7SYiXbFCh5gfqH0PrJhTrk0e/5Lbq9cIJqVqq5tbcxIlHsFROpRzqaNB2ZzYZrDsg==,4PGPj1bFSErLSyO4g4nuTdu8wwSGt9gsSb19Ud+SLooi/zMd+hxK+8iulMvEBM7yDxlBvbJNDzczSZXIh0XZdQ==,VPSWO1zL1JnfDG4pJ7g4UCQ+kD2tEHbmrxuslW5sm4pdjS4YTwpyOkruIl1qe2ZMkOeD8DowAfh2T750hQoI1g==
+    volumes:
+      - /app/node_modules
+      - ./api:/app
+      - ./api/uploads:/app/uploads
+    ports:
+      - "5000:5000"
+    depends_on:
+      - web
+      - mongo
+    networks:
+      - nextjs_network
+  web:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./web
+    volumes:
+      - /app/node_modules
+      - ./web:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true=value
+      - AUTH_SECRET=lSpZ1CScW5qnzEHx+JpYC9q4Ll2FThX0zqtohlnDfQAckXb8djMltf9KUmtcz+Gtgy1CHhT1DvP+FLnxcc9OyA==
+      - API_SECRETS=LYEhuVzP4z3NE+fTRvIgD7SYiXbFCh5gfqH0PrJhTrk0e/5Lbq9cIJqVqq5tbcxIlHsFROpRzqaNB2ZzYZrDsg==,4PGPj1bFSErLSyO4g4nuTdu8wwSGt9gsSb19Ud+SLooi/zMd+hxK+8iulMvEBM7yDxlBvbJNDzczSZXIh0XZdQ==,VPSWO1zL1JnfDG4pJ7g4UCQ+kD2tEHbmrxuslW5sm4pdjS4YTwpyOkruIl1qe2ZMkOeD8DowAfh2T750hQoI1g==
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - nextjs_network
+  mongo:
+    image: mongo:latest
+    container_name: mongo-next
+    command:
+      [
+        "mongod",
+        "--logpath",
+        "/dev/null",
+        "--replSet",
+        "rs0",
+        "--bind_ip_all",
+        "--port",
+        "27017",
+      ]
+    ports:
+      - "27017:27017"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "localhost:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+    restart: unless-stopped
+    networks:
+      - nextjs_network
+  mongo-express:
+    image: mongo-express:latest
+    container_name: express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: "root"
+      ME_CONFIG_BASICAUTH_PASSWORD: "prisma"
+      ME_CONFIG_MONGODB_REPLICA_SET: "rs0"
+    ports:
+      - "8881:8081"
+    depends_on:
+      - mongo
+    networks:
+      - nextjs_network
+
+networks:
+  nextjs_network:
+    driver: bridge

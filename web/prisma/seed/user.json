@@ -1,0 +1,58 @@
+[
+  {
+    "id": "67e7eb301713524d074e49ae",
+    "email": "john@pork.com",
+    "password": "d5f31c08da84c46e9447d36160e44d0fb6c7649e8d4c913c474dd7e090df51b41cb9c76564c0b433a7eafa6dde42fd65bef43e7c36c087fd2a688b2cd6ba73f2",
+    "salt": "74bd5141e5c404f552e210a753369663",
+    "role": "RW",
+    "name": "John",
+    "lastName": "Pork",
+    "fullName": "",
+    "profilePicturePath": "uploads/pork-1743450947398.jpeg",
+    "isAdmin": true,
+    "createdAt": "2025-03-29T12:44:32.823Z",
+    "updatedAt": "2025-03-31T19:55:54.314Z"
+  },
+  {
+    "id": "67eaf2a018a343fd5b283b36",
+    "email": "superadmin@example.com",
+    "password": "b4c66fa33636ea524da5de2717a7bb34e820674934adde49c3791c8b00d84ed9a043a5602336fd3c92807e5e45b5223de2f8920d60a2e24b87060b1ec0009cac",
+    "salt": "6e87ffae1adf0294fcf3e216d10aad02",
+    "role": "RW",
+    "name": "Alice",
+    "lastName": "Johnson",
+    "fullName": "",
+    "profilePicturePath": "uploads/minimalism-sunset-wallpapers-52691-48430-6514248-1743450972772.jpeg",
+    "isAdmin": true,
+    "createdAt": "2025-03-31T19:53:04.767Z",
+    "updatedAt": "2025-03-31T20:16:09.350Z"
+  },
+  {
+    "id": "67eaf2c018a343fd5b283b38",
+    "email": "bob@smith.com",
+    "password": "83e590fd1fd0a780416994870b0bb28874d682ccf90f866f1841e72170efbe472a9db5b94f488c012c6691d69da7706e88479feb3122d842e44cb4750178fd30",
+    "salt": "b327d0375686226a92a2fc8984b4c982",
+    "role": "RW",
+    "name": "Bob",
+    "lastName": "Smith",
+    "fullName": "",
+    "profilePicturePath": "uploads/trees-7544451-1743450986461.jpg",
+    "isAdmin": false,
+    "createdAt": "2025-03-31T19:53:36.418Z",
+    "updatedAt": "2025-03-31T19:56:26.571Z"
+  },
+  {
+    "id": "67eaf2d418a343fd5b283b39",
+    "email": "charlie@brown.com",
+    "password": "e5ad3b0593e4c28c54033330d39bd490c1cd99f0639d40bcca5c4eac3ab73096a4f14187368847e1fcd4c63d2ac0a9fd4797d1fba4a6ab603f6d9c25c9c8c010",
+    "salt": "4f76e1e6ab87aa6999cc0b4263f49f64",
+    "role": "RW",
+    "name": "Charlie",
+    "lastName": "Brown",
+    "fullName": "",
+    "profilePicturePath": "uploads/arches-6891727-1743450994251.jpg",
+    "isAdmin": true,
+    "createdAt": "2025-03-31T19:53:56.342Z",
+    "updatedAt": "2025-03-31T20:20:14.790Z"
+  }
+]

@@ -1,0 +1,45 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+model User {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  email              String   @unique
+  password           String
+  salt               String
+  role               Role
+  name               String?
+  lastName           String?
+  fullName           String?  @default("")
+  profilePicturePath String?  @default("")
+  isAdmin            Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model RichText {
+id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+title                String
+description          String?  @default("")
+content              String   @default("")
+folderId             String?  @default("")
+owner                String   @default("")
+createdAt            DateTime @default(now())
+updatedAt            DateTime @updatedAt
+}
+
+model AppConfig {
+id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+maintenanceEnabled   Boolean @default(false)
+}
+
+enum Role {
+  RW
+  RO
+}
